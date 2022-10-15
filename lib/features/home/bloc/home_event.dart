@@ -9,7 +9,7 @@ abstract class HomeEvent extends Equatable {
 
 class OnLoadedEvent extends HomeEvent {
   const OnLoadedEvent({
-    required this.errorMessage,
+    this.errorMessage,
     required this.universities,
   });
 
