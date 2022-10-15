@@ -22,7 +22,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
   }
 
-  var displayAsListView = false;
+  var displayAsListView = true;
   var universities = <University>[];
 
   void getUniversities() async {
