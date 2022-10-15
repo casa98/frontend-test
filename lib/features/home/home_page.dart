@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -73,6 +74,18 @@ class _HomePageState extends State<HomePage> {
               return ListViewWidget(
                 universities: state.universities,
                 onTap: onTap,
+                onLoadMoreUniversities: () {
+                  _homeBloc.loadMoreUniversities();
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      const SnackBar(
+                        content: Text('New universities fetched'),
+                        behavior: SnackBarBehavior.floating,
+                        duration: Duration(milliseconds: 1500),
+                      ),
+                    );
+                },
               );
             }
             return GridViewWidget(

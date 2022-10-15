@@ -9,17 +9,19 @@ abstract class HomeState extends Equatable {
 
 class OnLoadedState extends HomeState {
   const OnLoadedState({
+    required this.length,
     required this.displayAsListView,
     required this.errorMessage,
     required this.universities,
   });
 
+  final int length;
   final bool displayAsListView;
   final String? errorMessage;
   final List<University> universities;
 
   @override
-  List<Object> get props => [displayAsListView, universities];
+  List<Object> get props => [length, displayAsListView, universities];
 }
 
 class OnLoadingState extends HomeState {
