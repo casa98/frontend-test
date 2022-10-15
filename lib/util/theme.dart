@@ -13,6 +13,7 @@ mixin AppTheme {
         statusBarColor: Colors.grey[50],
         statusBarIconBrightness: Brightness.dark,
       ),
+      foregroundColor: Colors.black87,
     ),
   );
 }

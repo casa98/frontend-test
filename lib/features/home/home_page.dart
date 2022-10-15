@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../details/details_page.dart';
 import 'bloc/home_bloc.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,10 +25,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Universities',
-          style: Theme.of(context).textTheme.headline6,
-        ),
+        title: const Text('Universities'),
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
@@ -50,7 +48,14 @@ class _HomePageState extends State<HomePage> {
                 final university = state.universities[index];
                 return ListTile(
                   title: Text(university.name),
-                  onTap: () {},
+                  onTap: () {
+                    // Basic navigation just for two screens
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) {
+                        return DetailsPage(university: university);
+                      }),
+                    );
+                  },
                 );
               },
               separatorBuilder: (context, index) {
