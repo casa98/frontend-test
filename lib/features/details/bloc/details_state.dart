@@ -1,10 +1,10 @@
 part of 'details_bloc.dart';
 
-abstract class DetailsState extends Equatable {
-  const DetailsState();
-  
-  @override
-  List<Object> get props => [];
-}
+class DetailsState extends Equatable {
+  const DetailsState({required this.photoPath});
 
-class DetailsInitial extends DetailsState {}
+  final String photoPath;
+
+  @override
+  List<Object> get props => [photoPath];
+}

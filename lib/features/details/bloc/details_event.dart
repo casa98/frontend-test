@@ -1,8 +1,10 @@
 part of 'details_bloc.dart';
 
-abstract class DetailsEvent extends Equatable {
-  const DetailsEvent();
+class DetailsEvent extends Equatable {
+  const DetailsEvent({required this.photoPath});
+
+  final String photoPath;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [photoPath];
 }
