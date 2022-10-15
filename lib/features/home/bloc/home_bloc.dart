@@ -33,6 +33,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final currentShowingUniversities = <University>[];
 
   void getUniversities() async {
+    // Nice if that 'endpoint' accepeted a parameter to get a specific page and number of items
     final response = await ApiService.getUniversities();
     allUniversities
       ..clear()
@@ -52,11 +53,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void loadMoreUniversities() {
-    log('bloc to get more items: Current length: ${currentShowingUniversities.length}');
     for (var i = 0; i < 20; i++) {
-      currentShowingUniversities.add(
-        allUniversities[currentPage * pageSize + i],
-      );
+      if ((currentPage * pageSize + i) < allUniversities.length) {
+        currentShowingUniversities.add(
+          allUniversities[currentPage * pageSize + i],
+        );
+      }
     }
 
     add(OnLoadedEvent(
