@@ -120,7 +120,12 @@ class DetailsPageState extends State<DetailsPage> {
               BlocBuilder<DetailsBloc, DetailsState>(
                 builder: (context, state) {
                   if (state.photoPath.isNotEmpty) {
-                    return Image.file(File(state.photoPath));
+                    return ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                      child: Image.file(File(state.photoPath)),
+                    );
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

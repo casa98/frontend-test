@@ -9,10 +9,12 @@ abstract class HomeEvent extends Equatable {
 
 class OnLoadedEvent extends HomeEvent {
   const OnLoadedEvent({
+    required this.displayAsListView,
     this.errorMessage,
     required this.universities,
   });
 
+  final bool displayAsListView;
   final String? errorMessage;
   final List<University> universities;
 }

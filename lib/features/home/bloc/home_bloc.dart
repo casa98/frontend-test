@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fontend_test/services/api_service.dart';
 
 import '../../../models/university.dart';
+import '../../../services/api_service.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -13,6 +11,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const OnLoadingState(loading: true)) {
     on<OnLoadedEvent>((event, emit) {
       emit(OnLoadedState(
+        displayAsListView: displayAsListView,
         errorMessage: event.errorMessage,
         universities: event.universities,
       ));
@@ -23,12 +22,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
   }
 
+  var displayAsListView = false;
+  var universities = <University>[];
+
   void getUniversities() async {
     final response = await ApiService.getUniversities();
-    log('response length: ${response.length.toString()}');
-    final universities =
-        response.map((university) => University.fromJson(university)).toList();
+    universities
+      ..clear()
+      ..addAll(response
+          .map((university) => University.fromJson(university))
+          .toList());
 
-    add(OnLoadedEvent(universities: universities));
+    add(OnLoadedEvent(
+      displayAsListView: displayAsListView,
+      universities: universities,
+    ));
+  }
+
+  void switchViewMode() {
+    displayAsListView = !displayAsListView;
+    add(OnLoadedEvent(
+      displayAsListView: displayAsListView,
+      universities: universities,
+    ));
   }
 }
