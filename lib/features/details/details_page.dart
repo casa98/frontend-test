@@ -9,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 import '../../models/university.dart';
 import 'bloc/details_bloc.dart';
+import 'widgets/choose_image_source.dart';
+import 'widgets/subtitle_widget.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -148,9 +150,7 @@ class DetailsPageState extends State<DetailsPage> {
                           final source =
                               await showModalBottomSheet<ImageSource>(
                             context: context,
-                            builder: (_) {
-                              return _chooseImageSource();
-                            },
+                            builder: (_) => const ChooseImageSource(),
                           );
                           if (source is ImageSource) {
                             _detailsBloc.getPhotoPath(source);
@@ -170,63 +170,9 @@ class DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  Widget _chooseImageSource() {
-    // Let's get Android UI only, time limitations
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ListTile(
-          leading: Icon(
-            Icons.camera_alt,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: const Text('Camera'),
-          onTap: () {
-            Navigator.of(context).pop(ImageSource.camera);
-          },
-        ),
-        ListTile(
-          leading: Icon(
-            Icons.photo,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: const Text('Gallery'),
-          onTap: () {
-            Navigator.of(context).pop(ImageSource.gallery);
-          },
-        ),
-        ListTile(
-          leading: Icon(
-            Icons.cancel,
-            color: Theme.of(context).primaryColor,
-          ),
-          title: const Text('Cancel'),
-          onTap: () => Navigator.pop(context),
-        ),
-      ],
-    );
-  }
-
   @override
   void dispose() {
     _detailsBloc.clearPath();
     super.dispose();
-  }
-}
-
-class SubtitleWidget extends StatelessWidget {
-  const SubtitleWidget(this.label, {Key? key}) : super(key: key);
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: Theme.of(context)
-          .textTheme
-          .headline6
-          ?.copyWith(color: Theme.of(context).primaryColor),
-    );
   }
 }

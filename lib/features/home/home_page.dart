@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fontend_test/features/home/widgets/grid_view_widget.dart';
+import 'package:fontend_test/features/home/widgets/list_view_widget.dart';
 
 import '../../models/university.dart';
 import '../details/details_page.dart';
@@ -32,6 +34,9 @@ class _HomePageState extends State<HomePage> {
         actions: [
           BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
+              if (state is OnLoadingState) {
+                return const SizedBox.shrink();
+              }
               return IconButton(
                 splashRadius: 22.0,
                 onPressed: _homeBloc.switchViewMode,
@@ -65,40 +70,14 @@ class _HomePageState extends State<HomePage> {
           }
           if (state is OnLoadedState) {
             if (state.displayAsListView) {
-              return ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final university = state.universities[index];
-                  return ListTile(
-                    title: Text(university.name),
-                    onTap: () => onTap(university),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const Divider(height: 0.0, thickness: 0.7);
-                },
-                itemCount: state.universities.length,
+              return ListViewWidget(
+                universities: state.universities,
+                onTap: onTap,
               );
             }
-            return GridView(
-              physics: const BouncingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-              ),
-              children: state.universities.map((university) {
-                return InkWell(
-                  onTap: () => onTap(university),
-                  child: Center(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      university.name,
-                      style: const TextStyle(fontSize: 16.0),
-                      textAlign: TextAlign.center,
-                    ),
-                  )),
-                );
-              }).toList(),
+            return GridViewWidget(
+              universities: state.universities,
+              onTap: onTap,
             );
           }
 
